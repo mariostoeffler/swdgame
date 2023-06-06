@@ -11,7 +11,7 @@ public class AssetRepository {
         textureCache = new HashMap<>();
     }
 //    Gibt die einzige Instanz des AssetRepository zurück.
-//    Wenn keine Instanz vorhanden ist, wird eine neue Instanz erstellt und zurückgegeben.
+//    Wenn keine Instanz vorhanden ist, wird eine neue Instanz erstellt und zurückgegeben.fg
 
     public static AssetRepository getInstance() {
         if (instance == null) {
