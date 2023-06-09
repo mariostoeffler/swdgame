@@ -94,21 +94,14 @@ public class Main extends ApplicationAdapter implements InputProcessor {
         batch.setProjectionMatrix(viewport.getCamera().combined);
         batch.begin();
 
-        float offsetX = viewport.getWorldWidth() / 2.0f - Tile.SIZE / 2.0f;
-        float offsetY = viewport.getWorldHeight() / 2.0f - Tile.SIZE / 2.0f;
-
-        for (GameObject gameObject : gameObjects) {
-            if (gameObject instanceof Tile) {
-                float tileX = gameObject.getX() + offsetX;
-                float tileY = gameObject.getY() + offsetY;
-                gameObject.setPosition(tileX, tileY);
+            for (GameObject gameObject : gameObjects) {
+                gameObject.draw(batch);
             }
-            gameObject.draw(batch);
+            font.draw(batch, "Hello Game", -220, -220);// Zeichnet den Text "Hello Game" an der angegebenen Position
+            batch.end();
+
         }
 
-        font.draw(batch, "Hello Game", -220 + offsetX, -220 + offsetY);
-        batch.end();
-    }
 
     @Override
     public void render() {
@@ -126,8 +119,7 @@ public class Main extends ApplicationAdapter implements InputProcessor {
 
         draw();
 
-
-        stage.act(); // Aktualisieren Sie die Stage
+        stage.act();
         stage.draw();
     }
 
