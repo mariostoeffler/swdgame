@@ -88,7 +88,7 @@ public class Player implements GameObject {
         movingRight = true;
     }
 
-    // Weitere Methoden zur Steuerung der Bewegung hinzufügen, um die Bewegung zu stoppen
+
     public void stopMovingUp() {
         movingUp = false;
     }

@@ -5,6 +5,6 @@ public class MeadowTile extends Tile{
         super(path);
     }
 
-// Ruft den Konstruktor der Oberklasse "Tile" auf und übergibt den Pfad des Bildes.
+
 
 }

@@ -68,13 +68,12 @@ public class Main extends ApplicationAdapter implements InputProcessor {
         uiTable.setFillParent(true);
         uiTable.top().left();
 
-        // Füge das Label zur Tabelle hinzu
-        uiTable.add(positionLabel).left().top(); // Setze die Position des Labels in der Tabelle
+
+        uiTable.add(positionLabel).left().top();
 
         stage = new Stage(viewport, batch);
         stage.addActor(uiTable);
 
-        // Erstelle den UIPositionObserver und übergebe das Label
         PositionObserver uiObserver = new UIPositionObserver(positionLabel);
 
 
@@ -101,7 +100,6 @@ public class Main extends ApplicationAdapter implements InputProcessor {
             batch.end();
 
         }
-
 
     @Override
     public void render() {

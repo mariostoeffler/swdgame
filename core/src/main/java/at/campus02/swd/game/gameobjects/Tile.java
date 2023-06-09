@@ -17,24 +17,22 @@ public class Tile implements GameObject {
         this.image =AssetRepository.getInstance().getTexture(imagePath);
         this.sprite = new Sprite(image);
     }
-    // Initialisiert die Textur des Tiles mit dem übergebenen Pfad.
-    // Erstellt einen Sprite mit der Textur des Tiles.
+
     @Override
     public void act(float delta) {
 
     }
-    // Die act-Methode wird von GameObject implementiert, hat aber hier keine Funktionalität.
-    // Es wird nichts im Tile selbst aktualisiert.
+
 
     @Override
     public void setPosition(float x, float y) {
         sprite.setPosition(x, y);
     }
-    // Setzt die Position des Sprites auf die angegebenen Koordinaten.
+
 
     @Override
     public void draw(SpriteBatch batch) {
         sprite.draw(batch);
     }
-    // Zeichnet den Sprite auf den SpriteBatch, der als Parameter übergeben wird.
+
 }

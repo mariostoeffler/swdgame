@@ -15,8 +15,7 @@ public class MeadowBuilder {
 
 
     private Type getTileType(int col, int row, int meadowHeight, int meadowWidth) {
-        // Hier werden die verschiedenen Fälle überprüft und der entsprechende Tile-Typ zurückgegeben.
-        // Zum Beispiel der linke obere Eck-Typ, der obere Rand-Typ, das Zentrum-Typ usw.
+
         if (row == 0 && col == 0) {
             return Type.MEADOW_TOP_LEFT;
         } else if (row == 0 && col != meadowWidth - 1) {
