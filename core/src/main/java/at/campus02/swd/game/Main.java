@@ -1,6 +1,7 @@
 package at.campus02.swd.game;
 
 import at.campus02.swd.game.factory.*;
+import at.campus02.swd.game.gameobjects.*;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -9,12 +10,13 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
 
-import at.campus02.swd.game.gameobjects.GameObject;
 import at.campus02.swd.game.input.GameInput;
-import at.campus02.swd.game.gameobjects.Player;
 
 public class Main extends ApplicationAdapter implements InputProcessor {
     private SpriteBatch batch;
@@ -26,9 +28,14 @@ public class Main extends ApplicationAdapter implements InputProcessor {
     private float deltaAccumulator = 0;
     private BitmapFont font;
     private Player player;
+    private Table uiTable;
+    private Label positionLabel;
+
+    private Stage stage;
 
     @Override
     public void create() {
+
         batch = new SpriteBatch();
 
         Factory tileFactory = new TileFactory();
@@ -55,22 +62,51 @@ public class Main extends ApplicationAdapter implements InputProcessor {
         font = new BitmapFont();
         font.setColor(Color.WHITE);
         Gdx.input.setInputProcessor(this.gameInput);
+
+        positionLabel = new Label("", new Label.LabelStyle(font, Color.WHITE));
+        uiTable = new Table();
+        uiTable.setFillParent(true);
+        uiTable.top().left();
+
+        // Füge das Label zur Tabelle hinzu
+        uiTable.add(positionLabel).left().top(); // Setze die Position des Labels in der Tabelle
+
+        stage = new Stage(viewport, batch);
+        stage.addActor(uiTable);
+
+        // Erstelle den UIPositionObserver und übergebe das Label
+        PositionObserver uiObserver = new UIPositionObserver(positionLabel);
+
+
+        PositionObserver logObserver = new LogPositionObserver();
+        player.addObserver(uiObserver);
+        player.addObserver(logObserver);
     }
 
     private void act(float delta) {
         for (GameObject gameObject : gameObjects) {
             gameObject.act(delta);
         }
-        player.act(delta); // Hier die act-Methode des Spielers aufrufen
+        player.act(delta);
     }
 
     private void draw() {
         batch.setProjectionMatrix(viewport.getCamera().combined);
         batch.begin();
+
+        float offsetX = viewport.getWorldWidth() / 2.0f - Tile.SIZE / 2.0f;
+        float offsetY = viewport.getWorldHeight() / 2.0f - Tile.SIZE / 2.0f;
+
         for (GameObject gameObject : gameObjects) {
+            if (gameObject instanceof Tile) {
+                float tileX = gameObject.getX() + offsetX;
+                float tileY = gameObject.getY() + offsetY;
+                gameObject.setPosition(tileX, tileY);
+            }
             gameObject.draw(batch);
         }
-        font.draw(batch, "Hello Game", -220, -220);
+
+        font.draw(batch, "Hello Game", -220 + offsetX, -220 + offsetY);
         batch.end();
     }
 
@@ -89,16 +125,24 @@ public class Main extends ApplicationAdapter implements InputProcessor {
         player.act(delta);
 
         draw();
+
+
+        stage.act(); // Aktualisieren Sie die Stage
+        stage.draw();
     }
 
     @Override
     public void dispose() {
         batch.dispose();
+        stage.dispose();
     }
 
     @Override
     public void resize(int width, int height) {
-        viewport.update(width, height);
+        viewport.setScreenSize(width, height);
+        viewport.setWorldSize(480, 480);
+        viewport.apply(true);
+        stage.getViewport().update(width, height, true);
     }
 
     @Override

@@ -8,6 +8,8 @@ public class Tile implements GameObject {
     private Texture image; // Die Textur des Tiles.
     private Sprite sprite; // Der Sprite des Tiles.
 
+    public static final float SIZE = 64.0f;
+
     private String imagePath;
 
     public Tile(String imagePath) {
